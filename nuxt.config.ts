@@ -4,4 +4,7 @@ export default defineNuxtConfig({
     typescript: {
         shim: false
     },
+    app: {
+        baseURL: '/.output/public/'
+    },
 })
