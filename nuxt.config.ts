@@ -5,6 +5,6 @@ export default defineNuxtConfig({
         shim: false
     },
     app: {
-        baseURL: '/.output/public/'
+        // baseURL: '/.output/public/'
     },
 })
