@@ -8,13 +8,11 @@
 
         <div class="stopwatch-button" @click="toggleTimer(index)">
           <div :class="{ inactive: !stopwatch.running }">
-            <img :src="!stopwatch.running ? '/_nuxt/assets/img/play.svg' : '/_nuxt/assets/img/pause.svg'"
-              :class="{ inactive: !stopwatch.running }">
+            <img :src="!stopwatch.running ? imgplay : imgpause" :class="{ inactive: !stopwatch.running }">
           </div>
         </div>
         <button class="stopwatch-button" @click="resetTimer(index)">
-          <img :src="stopwatch.running ? '/_nuxt/assets/img/cubeisActive.svg' : '/_nuxt/assets/img/cube.svg'" alt=" reset"
-            :class="{ inactive: !stopwatch.running }">
+          <img :src="!stopwatch.running ? imgcube : imgcubeActive" alt=" reset" :class="{ inactive: !stopwatch.running }">
         </button>
       </div>
     </div>
@@ -25,26 +23,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
-const stopwatches = ref([{ running: false, time: 0 }]);
-
-function toggleTimer(index) {
-  stopwatches.value[index].running = !stopwatches.value[index].running;
-  if (stopwatches.value[index].running) {
-    stopwatches.value[index].start = Date.now() - stopwatches.value[index].time;
+import imgplay from '@/assets/img/play.svg'
+import imgpause from '@/assets/img/pause.svg'
+import imgcube from '@/assets/img/cube.svg'
+import imgcubeActive from '@/assets/img/cubeisActive.svg'
+const stopwatches = reactive([{ running: false, time: 0 }]);
+const toggleTimer = (index) => {
+  stopwatches[index].running = !stopwatches[index].running;
+  if (stopwatches[index].running) {
+    stopwatches[index].start = Date.now() - stopwatches[index].time;
     requestAnimationFrame(updateTimer);
   }
 }
 
-function resetTimer(index) {
-  stopwatches.value[index].running = false;
-  stopwatches.value[index].time = 0;
-  stopwatches.value[index].start = Date.now();
+const resetTimer = (index) => {
+  stopwatches[index].running = false;
+  stopwatches[index].time = 0;
+  stopwatches[index].start = Date.now();
 }
 
-function updateTimer() {
-  stopwatches.value.forEach((stopwatch) => {
+const updateTimer = () => {
+  stopwatches.forEach((stopwatch) => {
     if (stopwatch.running) {
       stopwatch.time = Date.now() - stopwatch.start;
     }
@@ -52,7 +51,7 @@ function updateTimer() {
   requestAnimationFrame(updateTimer);
 }
 
-function formatTime(time) {
+const formatTime = (time) => {
   const hours = Math.floor(time / 3600000);
   const minutes = Math.floor((time % 3600000) / 60000);
   const seconds = Math.floor((time % 60000) / 1000);
@@ -65,7 +64,7 @@ function formatTime(time) {
   }
 }
 
-function padZero(number) {
+const padZero = (number) => {
   if (number < 10) {
     return `0${number}`;
   } else {
@@ -73,8 +72,8 @@ function padZero(number) {
   }
 }
 
-function addStopwatch() {
-  stopwatches.value.push({ running: false, time: 0 });
+const addStopwatch = () => {
+  stopwatches.push({ running: false, time: 0 });
 }
 </script>
 <style scoped lang = scss>
