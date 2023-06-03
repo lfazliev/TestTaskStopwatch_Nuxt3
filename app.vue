@@ -1,4 +1,5 @@
 <template>
+  <a href="/hom/vuemodul/index.html" style="color: white;">Back</a>
   <div class="stopwatch-container">
     <div class="stopwatch" v-for="(stopwatch, index) in stopwatches" :key="index">
       <div class="stopwatch-display" :class="{ 'stopwatch-display-active': stopwatch.running }">
@@ -35,7 +36,9 @@ const toggleTimer = (index) => {
     requestAnimationFrame(updateTimer);
   }
 }
-
+useHead({
+  title: 'TestTimer',
+})
 const resetTimer = (index) => {
   stopwatches[index].running = false;
   stopwatches[index].time = 0;
